@@ -12,7 +12,9 @@
 </head>
 
 <body>
+    
     <div class="center container">
+        <h1 class="header">八数码问题</h1>
         <div class="center button-wrapper">
             <button id="inputs-button">清空初态</button>
             <button id="inpute-button">清空末态</button>
@@ -20,17 +22,17 @@
         </div>
         <div class="board-wrapper center">
             <div class="center board">
-                <div id="row1" class="input-row1">
+                <div id="srow1" class="input-row1">
                     <input type="text" id="s1">
                     <input type="text" id="s2">
                     <input type="text" id="s3"><br>
                 </div>
-                <div id="row2">
+                <div id="srow2">
                     <input type="text" id="s4">
                     <input type="text" id="s5">
                     <input type="text" id="s6"><br>
                 </div>
-                <div id="row3">
+                <div id="srow3">
                     <input type="text" id="s7">
                     <input type="text" id="s8">
                     <input type="text" id="s9"><br>
@@ -38,23 +40,27 @@
             </div>
     
             <div class="center board">
-                <div id="row1" class="input-row1">
+                <div id="erow1" class="input-row1">
                     <input type="text" value="1" id="e1">
                     <input type="text" value="2" id="e2">
                     <input type="text" value="3" id="e3"><br>
                 </div>
-                <div id="row2">
+                <div id="erow2">
                     <input type="text" value="4" id="e4">
                     <input type="text" value="5" id="e5">
                     <input type="text" value="6" id="e6"><br>
                 </div>
-                <div id="row3">
+                <div id="erow3">
                     <input type="text" value="7" id="e7">
                     <input type="text" value="8" id="e8">
                     <input type="text" id="e9"><br>
                 </div>
             </div>
         </div>
+        <p class="step-paragraph">距离最终状态还需 <p1 class="step-num" id="step-num">?</p1> 步</p>
+        <p class="footer-paragraph">
+            Copyright &copy; Shaun All Rights Reserved
+        </p>
     </div>
     
     <script src="script.js"></script>

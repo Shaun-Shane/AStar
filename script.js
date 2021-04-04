@@ -10,6 +10,8 @@ var endArray = [
     [7, 6, 5]
 ];
 
+var running = false;
+
 function Board(array, curStep) {
     this.state = copy(array); // 3 * 3状态
     this.eval = evalute(curStep); // 估值 
@@ -63,6 +65,7 @@ function Board(array, curStep) {
 }
 
 function init() {
+    running = true;
     let cnt_b = 0;
     for (let i = 0; i < 3; i++)
         for (let j = 0; j < 3; j++) {
@@ -79,10 +82,10 @@ function init() {
             if (inputVal == "") inputVal = 0;
             endArray[i][j] = parseInt(inputVal);
         }
-    console.log("initiated successfully");
 }
 
 function reset(_id) {
+    document.getElementById("step-num").innerHTML = "?";
     let cnt_b = 0;
     for (let i = 0; i < 3; i++)
         for (let j = 0; j < 3; j++) {
@@ -186,38 +189,72 @@ function aStar(sx, sy, solution) { // A*
     return -1;
 }
 
-function getNodePos(node) {
-    let tmp = node, left = node.offsetLeft, top = node.offsetTop;
-    while (tmp = tmp.offsetParent) {
-        left += tmp.offsetLeft;
-        top += tmp.offsetTop;
-    }
-    return [left, top];
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+// function getNodePos(node) {
+//     let tmp = node, left = node.offsetLeft, top = node.offsetTop;
+//     while (tmp = tmp.offsetParent) {
+//         left += tmp.offsetLeft;
+//         top += tmp.offsetTop;
+//     }
+//     return [left, top];
+// }
 
 async function displaySolution(solution) { // 演示最短路径
-    if (solution.length <= 1) return;
+    document.getElementById("step-num").innerHTML = solution.length - 1;
+    if (solution.length <= 1) {
+        running = false;
+        setTimeout(() => {
+            alert("done!");
+        }, 1000);
+        return;
+    }
     (function myLoop(i) {
         setTimeout(() => {
-            sleep(1000).then(() => {
-                let id1 = "s" + solution[i].indexOf("0");
-                let id2 = "s" + solution[i - 1].indexOf("0");
-                console.log(i, id1 + id2);
-                // let node1 = document.getElementById(id1);
-                // let node2 = document.getElementById(id2);
-                // let [x1, y1] = getNodePos(node1);
-                // let [x2, y2] = getNodePos(node2);
-                if ((--i) >= 1) myLoop(i);
-            });
-        }, 500);
+            document.getElementById("step-num").innerHTML = i - 1;
+            let id1 = "s" + (solution[i].indexOf("0") + 1);
+            let id2 = "s" + (solution[i - 1].indexOf("0") + 1);
+
+            //console.log(i, id1 + id2);
+
+            let node1 = document.getElementById(id1);
+            let node2 = document.getElementById(id2);
+
+            let new1 = document.createElement("input");
+            new1.type = "text";
+            new1.id = id1;
+            new1.value = node2.value;
+
+            let new2 = document.createElement("input");
+            new2.type = "text";
+            new2.id = id2;
+            new2.value = node1.value;
+            new2.style.cssText = node1.style.cssText;
+                
+            let faId1 = "srow" + (Math.floor(solution[i].indexOf("0") / 3) + 1);
+            let faId2 = "srow" + (Math.floor(solution[i - 1].indexOf("0") / 3) + 1);
+
+            document.getElementById(faId1).replaceChild(new1, node1);
+            document.getElementById(faId2).replaceChild(new2, node2);
+
+            if ((--i) >= 1) myLoop(i);
+            else {
+                running = false;
+                setTimeout(() => {
+                    alert("done!");
+                }, 1000);
+            }
+        }, 1000);
     })(solution.length - 1);
 }
 
+function focusSpace(id) {
+    document.getElementById(id).style.cssText = `border: .15rem solid #fff; background-color: rgb(248, 238, 228);`;
+}
+
 document.getElementById("calc-button").addEventListener('click', () => { // 检查输入并计算
+    if (running) {
+        alert("A* program is running! Please wait for the solution!");
+        return;
+    }
     if (check("s") && check("e")) {
         init();
         let solution = new Array();
@@ -226,17 +263,30 @@ document.getElementById("calc-button").addEventListener('click', () => { // 检�
                 if (startArray[i][j] == "0") {
                     console.log(aStar(i, j, solution));
                     console.log(solution.length);
-                    displaySolution(solution);
+                    if (solution.length == 0) {
+                        alert("No solution!");
+                        running = false;
+                    } else {
+                        focusSpace("s" + (i * 3 + j + 1));
+                        displaySolution(solution);
+                    }
                     break;
                 }
-        delete solution;
     }
 });
 
-document.getElementById("inputs-button").onclick = function() { // 初始状态清空
+document.getElementById("inputs-button").addEventListener('click', () => { // 初始状态清空
+    if (running) {
+        alert("A* program is running! Please wait for the solution!");
+        return;
+    }
     reset("s");
-}
+});
 
-document.getElementById("inpute-button").onclick = function() { // 莫状态清空
+document.getElementById("inpute-button").addEventListener('click', () => { // 莫状态清空
+    if (running) {
+        alert("A* program is running! Please wait for the solution!");
+        return;
+    }
     reset("e");
-}
+});

@@ -16,10 +16,6 @@
     --light-grey-color: #777;
 }
 
-body {
-    background-color: rgb(250, 248, 239);
-}
-
 .center {
     display: flex;
     justify-content: center;
@@ -30,17 +26,32 @@ body {
     margin: 0rem 3.5rem 0rem 3.5rem;
     box-shadow: 0.5rem 1rem 2rem var(--grey-color);
     overflow: hidden;
+    background: linear-gradient(rgba(250, 248, 239, 0.7), rgba(250, 248, 239, 0.95)), url(bg.png) center no-repeat;;
+}
+
+.header {
+    top: 4rem;
+    position: fixed;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.header:hover {
+    text-shadow: 0 0.2rem 1rem #000;
 }
 
 .board-wrapper {
     flex-direction: row;
+    letter-spacing: 0.1rem;
+    font-size: 2rem;
 }
 
 .board {
     flex-direction: column;
     background-color: rgba(187, 173, 160);
-    width: 20rem;
-    height: 20rem;
+    width: 20.2rem;
+    height: 20.2rem;
     border-radius: 4%;
     box-shadow: 0 0.4rem 0.4rem #777;
     margin-left: 1rem;
@@ -62,6 +73,10 @@ body {
     cursor:pointer;
 }
 
+.board input:focus {
+    border: .15rem solid #fff;
+}
+
 .input-row1 {
     margin-top: 0.4rem;
 }
@@ -69,8 +84,8 @@ body {
 .button-wrapper {
     height: calc(100vh);
     flex-direction: column;
-    left: 0;
-    margin-right: 10rem;
+    margin-right: 5rem;
+    margin-left: 10%;
     height: calc(100vh - 2rem);
 }
 
@@ -84,4 +99,24 @@ body {
     height: 3rem;
     width: 5rem;
     cursor: pointer
+}
+
+.button-wrapper button:focus {
+    border: .12rem solid #ccc;
+}
+
+.step-paragraph {
+    width: 20rem;
+    font-size: 1.3rem;
+    margin-left: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    opacity: 0.5;
+}
+
+.footer-paragraph {
+    position: fixed;
+    bottom: 2rem;
+    letter-spacing: 0.05rem;
+    text-shadow: 0 0.3rem 0.5rem #000;
 }
