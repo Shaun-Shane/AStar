@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://fonts.googleapis.com/css?family=Vollkorn:400,400i,600,700,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="js-priority-queue/priority-queue.js"></script>
+    <title>Eight digits puzzle</title>
+</head>
+
+<body>
+    <div class="center container">
+        <div class="center button-wrapper">
+            <button id="inputs-button">清空初态</button>
+            <button id="inpute-button">清空末态</button>
+            <button id="calc-button">求解</button>
+        </div>
+        <div class="board-wrapper center">
+            <div class="center board">
+                <div id="row1" class="input-row1">
+                    <input type="text" id="s1">
+                    <input type="text" id="s2">
+                    <input type="text" id="s3"><br>
+                </div>
+                <div id="row2">
+                    <input type="text" id="s4">
+                    <input type="text" id="s5">
+                    <input type="text" id="s6"><br>
+                </div>
+                <div id="row3">
+                    <input type="text" id="s7">
+                    <input type="text" id="s8">
+                    <input type="text" id="s9"><br>
+                </div>
+            </div>
+    
+            <div class="center board">
+                <div id="row1" class="input-row1">
+                    <input type="text" value="1" id="e1">
+                    <input type="text" value="2" id="e2">
+                    <input type="text" value="3" id="e3"><br>
+                </div>
+                <div id="row2">
+                    <input type="text" value="4" id="e4">
+                    <input type="text" value="5" id="e5">
+                    <input type="text" value="6" id="e6"><br>
+                </div>
+                <div id="row3">
+                    <input type="text" value="7" id="e7">
+                    <input type="text" value="8" id="e8">
+                    <input type="text" id="e9"><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+
+</html>
