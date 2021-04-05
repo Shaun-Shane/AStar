@@ -84,6 +84,27 @@ function init() {
         }
 }
 
+function errorMsg(msg) {
+    swal({
+        title: `${msg}`,
+        icon: "error",
+    });
+}
+
+function successMsg(msg) {
+    swal({
+        title: `${msg}`,
+        icon: "success",
+    });
+}
+
+function warnMsg(msg) {
+    swal({
+        title: `${msg}`,
+        icon: "warning",
+    });
+}
+
 function reset(_id) {
     document.getElementById("step-num").innerHTML = "?";
     let cnt_b = 0;
@@ -107,14 +128,14 @@ function check(_id) {
             if (inputVal == "") inputVal = 0;
             let tmp = parseInt(inputVal);
             if (!(0 <= tmp && tmp <= 8)) {
-                if (_id == "s") alert("initial state ilegal input!");
-                else alert("final state ilegal input!");
+                if (_id == "s") errorMsg("请检查初始状态输入!");
+                else errorMsg("请检查最终状态输入!");
                 return false;
             }
             vis[tmp]++;
             if (vis[tmp] > 1) {
-                if (_id == "s") alert("initial state ilegal input!");
-                else alert("final state ilegal input!");
+                if (_id == "s") errorMsg("请检查初始状态输入!");
+                else errorMsg("请检查最终状态输入!");
                 return false;
             }
         }
@@ -189,21 +210,13 @@ function aStar(sx, sy, solution) { // A*
     return -1;
 }
 
-// function getNodePos(node) {
-//     let tmp = node, left = node.offsetLeft, top = node.offsetTop;
-//     while (tmp = tmp.offsetParent) {
-//         left += tmp.offsetLeft;
-//         top += tmp.offsetTop;
-//     }
-//     return [left, top];
-// }
 
 async function displaySolution(solution) { // 演示最短路径
     document.getElementById("step-num").innerHTML = solution.length - 1;
     if (solution.length <= 1) {
         running = false;
         setTimeout(() => {
-            alert("done!");
+            successMsg("求解完成!");
         }, 1000);
         return;
     }
@@ -239,7 +252,7 @@ async function displaySolution(solution) { // 演示最短路径
             else {
                 running = false;
                 setTimeout(() => {
-                    alert("done!");
+                    successMsg("求解完成!");
                 }, 1000);
             }
         }, 1000);
@@ -247,12 +260,12 @@ async function displaySolution(solution) { // 演示最短路径
 }
 
 function focusSpace(id) {
-    document.getElementById(id).style.cssText = `border: .15rem solid #fff; background-color: rgb(248, 238, 228);`;
+    document.getElementById(id).style.cssText = `border: 0.4rem solid #fff; background-color: rgb(243, 233, 223);`;
 }
 
 document.getElementById("calc-button").addEventListener('click', () => { // 检查输入并计算
     if (running) {
-        alert("A* program is running! Please wait for the solution!");
+        warnMsg("求解中，请稍后重试");
         return;
     }
     if (check("s") && check("e")) {
@@ -264,11 +277,16 @@ document.getElementById("calc-button").addEventListener('click', () => { // 检�
                     console.log(aStar(i, j, solution));
                     console.log(solution.length);
                     if (solution.length == 0) {
-                        alert("No solution!");
+                        errorMsg("该输入下无解");
                         running = false;
                     } else {
-                        focusSpace("s" + (i * 3 + j + 1));
-                        displaySolution(solution);
+                        swal({
+                            title: `找到最佳解法，需${solution.length-1}步得到最终状态`,
+                            icon: "success",
+                        }).then(() => {
+                            focusSpace("s" + (i * 3 + j + 1));
+                            displaySolution(solution);
+                        });
                     }
                     break;
                 }
@@ -277,7 +295,7 @@ document.getElementById("calc-button").addEventListener('click', () => { // 检�
 
 document.getElementById("inputs-button").addEventListener('click', () => { // 初始状态清空
     if (running) {
-        alert("A* program is running! Please wait for the solution!");
+        warnMsg("求解中，请稍后重试");
         return;
     }
     reset("s");
@@ -285,8 +303,31 @@ document.getElementById("inputs-button").addEventListener('click', () => { // �
 
 document.getElementById("inpute-button").addEventListener('click', () => { // 莫状态清空
     if (running) {
-        alert("A* program is running! Please wait for the solution!");
+        warnMsg("求解中，请稍后重试");
         return;
     }
     reset("e");
+});
+
+document.getElementById("reset-button").addEventListener('click', () => { // 莫状态清空
+    if (running) {
+        swal("确认重置?", {
+            buttons: {
+                cancel: "No",
+                yes: {
+                    text: "OK",
+                    value: "reset",
+                },
+            },
+            icon: "warning",
+        }).then((value) => {
+            switch (value) {
+                case "reset":
+                    location.reload();
+                    break;
+            }
+        });
+        return;
+    }
+    location.reload();
 });
